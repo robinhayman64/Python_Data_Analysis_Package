@@ -47,7 +47,7 @@ class DataAnalysis:
     def exportDfToCSV_Single(self, filePath, dfID):
         self._execSuccessFlags[dfID] = True
         try:
-            self._dataFrames[dfID].exportDfToCSV(filePath)
+            self._dataFrames[dfID].exportDfToCSV(filePath + ".csv")
         except:
             self._execSuccessFlags[dfID] = False
         return self._execSuccessFlags[dfID]
