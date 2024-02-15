@@ -22,6 +22,7 @@ class DataAnalysis:
     #Clears all dataframes
     def clearDataFrames(self):
         self._dataFrames = []
+        self._execSuccessFlags = []
     
     #Adds a CSV file to generate a dataframe
     def addCSV(self, fileDir):
@@ -70,9 +71,12 @@ class DataAnalysis:
     
     def plotSingleColumn(self, dfID, key):
         self._dataFrames[dfID].plotStats_Single_Column(key)
+        
+    def plotDoubleColumn(self, dfID, column_A_key, column_B_key):
+        self._dataFrames[dfID].plotStat_Double_Column(column_A_key, column_B_key)
     
-    def rsync(self):
-        subprocess.rsync()
+    def rsync(self, filePath_source, filePath_dest):
+        subprocess.call(["rsync", "-a", filePath_source, filePath_dest])
     
     '''
     =========================Private Functions================================
@@ -122,7 +126,7 @@ class DataAnalysis:
     def __exportToCSV_Thread__(self, dfID, threadID):
         self._execSuccessFlags[dfID] = True
         try:
-            self._dataFrames[dfID].exportDfToCSV(self._filePath + "_" + dfID)
+            self._dataFrames[dfID].exportDfToCSV(self._filePath + "_" + str(dfID) + ".csv")
         except:
             self._execSuccessFlags[dfID] = False
         self._threadFlags[threadID] = False
